@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.13.2'
+}
+
+group 'ru.gayn.plugin'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains:annotations:24.0.1'
+}
+
+intellij {
+    version = '2022.2.5'  // Версия IntelliJ IDEA
+    plugins = ['java']  // Зависимости от плагинов
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+patchPluginXml {
+    sinceBuild = '222'
+    untilBuild = '231.*'
+}
+
+
