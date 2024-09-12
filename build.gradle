@@ -15,7 +15,7 @@ dependencies {
 }
 
 intellij {
-    version = '2022.2.5'  // Версия IntelliJ IDEA
+    version = '2024.1'  // Версия IntelliJ IDEA
     plugins = ['java']  // Зависимости от плагинов
 }
 
@@ -23,6 +23,7 @@ compileJava.options.encoding = 'UTF-8'
 
 patchPluginXml {
     sinceBuild = '222'
+    untilBuild = '242.*'
 }
 
 
