@@ -23,7 +23,6 @@ compileJava.options.encoding = 'UTF-8'
 
 patchPluginXml {
     sinceBuild = '222'
-    untilBuild = '231.*'
 }
 
 
