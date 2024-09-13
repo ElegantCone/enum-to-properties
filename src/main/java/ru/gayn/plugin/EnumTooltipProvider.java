@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.Properties;
 
 public class EnumTooltipProvider implements EditorMouseMotionListener {
-
     @Override
     public void mouseMoved(EditorMouseEvent event) {
         Editor editor = event.getEditor();
@@ -32,30 +31,23 @@ public class EnumTooltipProvider implements EditorMouseMotionListener {
         if (parent instanceof PsiReferenceExpression) {
             parent = ((PsiReferenceExpression) parent).resolve();
         }
-
         if (parent instanceof PsiEnumConstant enumConstant) {
             var containingClass = enumConstant.getContainingClass();
             if (containingClass == null) return;
             String enumClassName = containingClass.getName();
-            String enumConstantName = enumConstant.getName();
+            String enumConstantName = enumConstant.getName().toLowerCase();
             var key = enumClassName + "." + enumConstantName;
             var module = ModuleUtilCore.findModuleForPsiElement(containingClass);
-            // Показываем всплывающую подсказку
-            DocumentationPopup.showBalloonHintAtMouse(editor, getMessage(module, key), event.getMouseEvent(), element);
-
+            var message = getMessage(module, key);
+            if (message == null) return;
+            DocumentationPopup.showBalloonHintAtMouse(editor, message, event.getMouseEvent(), element);
         }
     }
 
     private String getMessage(Module module, String key) {
         StringBuilder result = new StringBuilder();
-        // Получаем тип файла для .properties файлов
         var propertiesFileType = FileTypeManager.getInstance().getFileTypeByExtension("properties");
-
-        // Используем FileTypeIndex.getFiles для получения файлов по типу
-        var propertyFiles = FileTypeIndex.getFiles(
-                propertiesFileType,
-                GlobalSearchScope.moduleScope(module)
-        );
+        var propertyFiles = FileTypeIndex.getFiles(propertiesFileType, GlobalSearchScope.moduleScope(module));
         try {
             for (var file : propertyFiles) {
                 Properties properties = new Properties();
@@ -68,7 +60,7 @@ public class EnumTooltipProvider implements EditorMouseMotionListener {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        return result.isEmpty() ? "Nothing to show" : result.toString();
+        return result.isEmpty() ? null : result.toString();
 
     }
 

@@ -16,9 +16,8 @@ enum-to-properties - небольшой простой плагин, упрощ�
 
 ## Установка
 
-- Manually:
-
-  Download the [latest release](https://github.com/ElegantCone/enum-to-properties/releases/latest) and install it manually using
+- Вручную:
+  Скачайте [latest release](https://github.com/ElegantCone/enum-to-properties/releases/latest) и установите вручную
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 ---
