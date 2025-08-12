@@ -38,6 +38,10 @@ public class EnumTooltipProvider implements EditorMouseMotionListener {
             String enumConstantName = enumConstant.getName().toLowerCase();
             var key = enumClassName + "." + enumConstantName;
             var module = ModuleUtilCore.findModuleForPsiElement(containingClass);
+            if (module == null) {
+                var virtualFile = containingClass.getContainingFile().getVirtualFile();
+                module = ModuleUtilCore.findModuleForFile(virtualFile, project);
+            }
             var message = getMessage(module, key);
             if (message == null) return;
             DocumentationPopup.showBalloonHintAtMouse(editor, message, event.getMouseEvent(), element);
@@ -45,6 +49,7 @@ public class EnumTooltipProvider implements EditorMouseMotionListener {
     }
 
     private String getMessage(Module module, String key) {
+        if (module == null) return null;
         StringBuilder result = new StringBuilder();
         var propertiesFileType = FileTypeManager.getInstance().getFileTypeByExtension("properties");
         var propertyFiles = FileTypeIndex.getFiles(propertiesFileType, GlobalSearchScope.moduleScope(module));
@@ -60,8 +65,7 @@ public class EnumTooltipProvider implements EditorMouseMotionListener {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
-        return result.isEmpty() ? null : result.toString();
-
+        return result.length() == 0 ? null : result.toString();
     }
 
 }
