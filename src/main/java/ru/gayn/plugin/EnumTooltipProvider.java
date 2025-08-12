@@ -66,7 +66,6 @@ public class EnumTooltipProvider implements EditorMouseMotionListener {
             System.out.println("Error: " + e.getMessage());
         }
         return result.length() == 0 ? null : result.toString();
-
     }
 
 }
